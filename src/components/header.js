@@ -26,9 +26,9 @@ const Header = (title, date, temp) => {
   dateSpan.classList.add("date");
   tempSpan.classList.add("temp");
 
-  dateSpan.innerText = date;
-  titleH1.innerText = title;
-  tempSpan.innerText = temp;
+  dateSpan.textContent = date;
+  titleH1.textContent = title;
+  tempSpan.textContent = temp;
 
   return headerDiv;
 
@@ -44,7 +44,7 @@ const headerAppender = (selector) => {
 
   const elementToAppend = document.querySelector(selector);
 
-  elementToAppend.appendChild(Header("Lambda Times", "25th January 2021", "55°"));
+  elementToAppend.appendChild(Header('Lambda Times', '1st October 2021', '55F'));
 
 
 }

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,6 +19,41 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+
+  const cardDiv = document.createElement("div");
+  cardDiv.classList.add("card");
+
+  const headlineDiv = document.createElement("div");
+  headlineDiv.classList.add("headline");
+
+  const authorDiv = document.createElement("div");
+  authorDiv.classList.add("author");
+
+  const imgDiv = document.createElement("div");
+  imgDiv.classList.add("img-container");
+
+  const image = document.createElement("img");
+
+  const authorSpan = document.createElement("span");
+
+  cardDiv.appendChild(headlineDiv);
+  cardDiv.appendChild(authorDiv);
+  authorDiv.appendChild(imgDiv);
+  authorDiv.appendChild(authorSpan);
+  imgDiv.appendChild(image);
+
+  headlineDiv.textContent = article.headline;
+
+  image.src = article.authorPhoto;
+
+  authorSpan.textContent = "By " + article.authorName;
+
+  cardDiv.addEventListener('click', function(){
+    console.log(article.headline);
+  })
+
+  return cardDiv;
+
 }
 
 const cardAppender = (selector) => {
@@ -28,6 +65,47 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  const elementToAppend3 = document.querySelector(selector);
+
+
+  axios.get("http://localhost:5000/api/articles")
+  .then(resp => {
+    
+    function topicAppender(topic) {
+      for (let i = 0; i < topic.length; i++) {
+        elementToAppend3.appendChild(Card(topic[i]));
+      }
+    }
+
+
+    topicAppender(resp.data.articles.javascript);
+    topicAppender(resp.data.articles.bootstrap);
+    topicAppender(resp.data.articles.technology);
+    topicAppender(resp.data.articles.jquery);
+    topicAppender(resp.data.articles.node);
+
+
+
+    // const articleArr = Object.entries(resp.data.articles);
+    // console.log(articleArr);
+
+    // for (let i=0; i < articleArr.length; i++) {
+    //   const articleName = articleArr[i][0];
+    //   for (let j=0; j < articleArr[i].length; j++) {
+    //     elementToAppend3.appendChild(Card(articleName))
+    //   }
+    // }
+   
+    // for (let i = 0; i < resp.data.articles.javascript.length; i++){
+    //   elementToAppend3.appendChild(Card(resp.data.articles.javascript[i]))
+    // }
+  }).catch(err => {
+    console.error(err);
+  });
+
+
+
 }
 
 export { Card, cardAppender }
